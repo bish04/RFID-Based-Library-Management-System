@@ -22,7 +22,7 @@ FirebaseAuth auth;
 FirebaseConfig config;
 
 //=========== GOOGLE SHEET ===========
-const char* sheetURL = "https://script.google.com/macros/s/AKfycbwrDWSLfBhg8kAzkqaPicGYBR08OEewY2rl0YDbqBoMaOE_1blMFq-55tHpFDmI_2HouA/exec";
+const char* sheetURL = "YOUR SHEET URL";
 
 // RFID
 #define SS_PIN 5
@@ -41,13 +41,13 @@ bool studentScanned=false;
 void sendToSheet(String s, String b, String a, int r){
 
   WiFiClientSecure client;
-  client.setInsecure();   // 🔥 FIX (SSL crash solution)
+  client.setInsecure();   
 
   HTTPClient http;
 
   http.begin(client, sheetURL);
   http.addHeader("Content-Type","application/json");
-  http.addHeader("Connection","close"); // 🔥 FIX
+  http.addHeader("Connection","close"); 
 
   String json = "{\"s\":\""+s+"\",\"b\":\""+b+"\",\"a\":\""+a+"\",\"r\":"+String(r)+"}";
 
@@ -58,7 +58,7 @@ void sendToSheet(String s, String b, String a, int r){
 
   http.end();
 
-  delay(150);   // 🔥 FIX (stability)
+  delay(150); 
 }
 
 
@@ -100,7 +100,7 @@ void setup(){
   Firebase.begin(&config, &auth);
   Firebase.reconnectWiFi(true);
 
-  fbdo.setBSSLBufferSize(512,512);   // 🔥 FIX (reduce SSL load)
+  fbdo.setBSSLBufferSize(512,512);   
 
   while(!Firebase.ready()){
     delay(100);
@@ -196,7 +196,7 @@ void loop(){
 
   bookName = fbdo.stringData();
 
-  // 🔥 FIX (safe inventoryKey)
+  
   if(Firebase.RTDB.getString(&fbdo,"/Books/"+bookID+"/inventoryKey")){
     key = fbdo.stringData();
   }else{
@@ -292,7 +292,7 @@ void loop(){
     lcd.print("In Use");
   }
 
-  delay(1500);   // 🔥 reduced delay
+  delay(1500);   
 
   studentScanned=false;
   lcd.clear();
